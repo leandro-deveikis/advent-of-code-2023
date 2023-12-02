@@ -21,22 +21,23 @@ var numbersMap = map[string]string{
 	"nine":  "n9e",
 }
 
+var filename = "Day01/input_complete"
+
 func main() {
-	result1 := Challenge1()
+	result1 := challenge1()
 	fmt.Printf("Challenge 1 result: %d \n", result1)
 
-	result2 := Challenge2()
+	result2 := challenge2()
 	fmt.Printf("Challenge 2 result: %d \n", result2)
-
 }
 
-func Challenge1() int32 {
-	lines := ReadInput("Day01/input_complete")
+func challenge1() int32 {
+	lines := ReadInput(filename)
 	return sumLines(lines)
 }
 
-func Challenge2() int32 {
-	lines := ReadInput("Day01/input_complete")
+func challenge2() int32 {
+	lines := ReadInput(filename)
 	newLines := make([]string, 0)
 
 	for _, l := range lines {
