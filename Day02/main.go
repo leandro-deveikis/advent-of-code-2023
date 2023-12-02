@@ -22,6 +22,9 @@ var filename = "Day02/input_complete"
 var regexGame = regexp.MustCompile(`Game (\d+):(.*)`)
 var regexHand = regexp.MustCompile(`(\d+) (blue|red|green)`)
 
+// Possible improvements:
+// - Resolve the challenge when reading the file (both of them)
+
 func main() {
 	// -- Challenge 1
 	sumValidIds := 0
@@ -51,37 +54,6 @@ func main() {
 	}
 
 	fmt.Printf("Challlenge 2: %d \n", sumPower)
-}
-
-func calculatePower(g game) int {
-	minGreen, minBlue, minRed := g.sets[0].green, g.sets[0].blue, g.sets[0].red
-	for _, s := range g.sets {
-		if s.green > 0 && s.green > minGreen {
-			minGreen = s.green
-		}
-
-		if s.red > 0 && s.red > minRed {
-			minRed = s.red
-		}
-
-		if s.blue > 0 && s.blue > minBlue {
-			minBlue = s.blue
-		}
-	}
-	return minGreen * minBlue * minRed
-}
-
-func isValidGame(g game) bool {
-	for _, s := range g.sets {
-		if !isValidSet(s) {
-			return false
-		}
-	}
-	return true
-}
-
-func isValidSet(s set) bool {
-	return s.red <= 12 && s.green <= 13 && s.blue <= 14
 }
 
 func readLine(l string) game {
@@ -124,6 +96,37 @@ func readLine(l string) game {
 		fmt.Println("No match found")
 	}
 	return g
+}
+
+func isValidGame(g game) bool {
+	for _, s := range g.sets {
+		if !isValidSet(s) {
+			return false
+		}
+	}
+	return true
+}
+
+func isValidSet(s set) bool {
+	return s.red <= 12 && s.green <= 13 && s.blue <= 14
+}
+
+func calculatePower(g game) int {
+	minGreen, minBlue, minRed := g.sets[0].green, g.sets[0].blue, g.sets[0].red
+	for _, s := range g.sets {
+		if s.green > 0 && s.green > minGreen {
+			minGreen = s.green
+		}
+
+		if s.red > 0 && s.red > minRed {
+			minRed = s.red
+		}
+
+		if s.blue > 0 && s.blue > minBlue {
+			minBlue = s.blue
+		}
+	}
+	return minGreen * minBlue * minRed
 }
 
 func Check(err error) {

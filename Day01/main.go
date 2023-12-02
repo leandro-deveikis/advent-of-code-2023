@@ -23,6 +23,10 @@ var numbersMap = map[string]string{
 
 var filename = "Day01/input_complete"
 
+// Possible improvements:
+// - Do both challenges in one func, so it doesn't have to read the file twice
+// - Resolve the challenge when reading the file (both of them)
+
 func main() {
 	result1 := challenge1()
 	fmt.Printf("Challenge 1 result: %d \n", result1)
