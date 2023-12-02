@@ -24,46 +24,19 @@ var numbersMap = map[string]string{
 var filename = "Day01/input_complete"
 
 // Possible improvements:
-// - Do both challenges in one func, so it doesn't have to read the file twice
 // - Resolve the challenge when reading the file (both of them)
-
 func main() {
-	result1 := challenge1()
+	//
+	lines := ReadInput(filename)
+
+	//-- Challenge 1
+	result1 := sumLines(lines)
 	fmt.Printf("Challenge 1 result: %d \n", result1)
 
-	result2 := challenge2()
+	//-- Challenge 2
+	newLines := replaceWithNumbers(lines)
+	result2 := sumLines(newLines)
 	fmt.Printf("Challenge 2 result: %d \n", result2)
-}
-
-func challenge1() int32 {
-	lines := ReadInput(filename)
-	return sumLines(lines)
-}
-
-func challenge2() int32 {
-	lines := ReadInput(filename)
-	newLines := make([]string, 0)
-
-	for _, l := range lines {
-		for {
-			kFound := ""
-			minPos := -1
-			for k, _ := range numbersMap {
-				pos := strings.Index(l, k)
-				if pos != -1 && (pos < minPos || minPos == -1) {
-					minPos = pos
-					kFound = k
-				}
-			}
-
-			if kFound == "" {
-				break
-			}
-			l = strings.Replace(l, kFound, numbersMap[kFound], 1)
-		}
-		newLines = append(newLines, l)
-	}
-	return sumLines(newLines)
 }
 
 func sumLines(lines []string) int32 {
@@ -85,6 +58,31 @@ func sumLines(lines []string) int32 {
 		sum += (first * 10) + second
 	}
 	return sum
+}
+
+func replaceWithNumbers(lines []string) []string {
+	newLines := make([]string, 0)
+
+	for _, l := range lines {
+		for {
+			kFound := ""
+			minPos := -1
+			for k := range numbersMap {
+				pos := strings.Index(l, k)
+				if pos != -1 && (pos < minPos || minPos == -1) {
+					minPos = pos
+					kFound = k
+				}
+			}
+
+			if kFound == "" {
+				break
+			}
+			l = strings.Replace(l, kFound, numbersMap[kFound], 1)
+		}
+		newLines = append(newLines, l)
+	}
+	return newLines
 }
 
 func runeToNumber(c int32) int32 {

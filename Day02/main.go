@@ -23,22 +23,14 @@ var regexGame = regexp.MustCompile(`Game (\d+):(.*)`)
 var regexHand = regexp.MustCompile(`(\d+) (blue|red|green)`)
 
 // Possible improvements:
-// - Resolve the challenge when reading the file (both of them)
+// - Resolve the challenge when reading the file (both of them), to avoid iterating several times one the arrays
 
 func main() {
 	// -- Challenge 1
 	sumValidIds := 0
-	games := make([]game, 0)
 
 	//read input
-	dat, err := os.Open(filename)
-	Check(err)
-	defer dat.Close()
-	scanner := bufio.NewScanner(dat)
-	for scanner.Scan() {
-		l := scanner.Text()
-		games = append(games, readLine(l))
-	}
+	games := readInput()
 	// now validate and sumValidIds the valid
 	for _, g := range games {
 		if isValidGame(g) {
@@ -54,6 +46,19 @@ func main() {
 	}
 
 	fmt.Printf("Challlenge 2: %d \n", sumPower)
+}
+
+func readInput() []game {
+	games := make([]game, 0)
+	dat, err := os.Open(filename)
+	Check(err)
+	defer dat.Close()
+	scanner := bufio.NewScanner(dat)
+	for scanner.Scan() {
+		l := scanner.Text()
+		games = append(games, readLine(l))
+	}
+	return games
 }
 
 func readLine(l string) game {
